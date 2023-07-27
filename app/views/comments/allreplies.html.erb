@@ -1,0 +1,10 @@
+<h1> Replies </h1>
+
+<% @comments.each do |comment|%>
+<p>
+Commenter: <%= comment.commenter%> <br>
+Comment : <%= comment.body%> 
+</p>
+<% end%>
+
+

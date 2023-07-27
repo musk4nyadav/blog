@@ -1,0 +1,38 @@
+<% unless comment.comment_id %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.commenter %>
+  </p>
+
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+
+  <p>
+    <% if comment.replies.any? %>
+      <% comment.replies.each do |reply|%>
+        <ul>
+          <li> Commenter: <%= reply.commenter%> <br>
+          <li> Comment: <%= reply.body%>
+          <%= link_to "Reply" , new_blog_post_comment_path(@blog_post, comment_id: reply.id)%>
+          <%= link_to "View all replies", "http://127.0.0.1:3000/comments/allreplies/#{reply.id}"%>
+        </ul>
+      <%end%>
+    <%end%>
+    <br> <%= link_to "Reply " ,new_blog_post_comment_path(@blog_post, comment_id: comment.id) %>
+  </p>
+
+
+<% end%>
+
+
+
+
+
+
+
+
+
+
+

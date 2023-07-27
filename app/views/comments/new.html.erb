@@ -1,0 +1,18 @@
+<h1> Reply to comment </h1>
+
+<%= form_with model: [ @blog_post, @comment] do |form| %>
+  <p>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
+  </p>
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </p>
+  <p>
+    <%= form.hidden_field :comment_id %><br>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

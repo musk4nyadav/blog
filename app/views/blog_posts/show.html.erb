@@ -1,0 +1,26 @@
+<h1> Hello BlogPost </h1>
+
+<div>
+<h2> <%= @blog_post.title %></h2>
+<div> 
+<p> <%= @blog_post.body %></p>
+</div>
+<div>
+<%=image_tag (@blog_post.cover_image), style: "height:500px; width: 500px;"%>
+</div>
+<ul>
+  <li><%= link_to "Edit", edit_blog_post_path(@blog_post) %></li>
+  <li><%= link_to "Destroy", blog_post_path(@blog_post), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+  <li><%= link_to "HomePage", blog_posts_path %> </li>
+</ul>
+</div>
+
+<h2>Comments</h2>
+<%= render @blog_post.comments %>
+
+<h2>Add a comment: </h2>
+<%= render 'comments/form'%>
+
