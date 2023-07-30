@@ -4,9 +4,13 @@ class BlogPostsController < ApplicationController
   end
 
   def show
-    @blog_post = BlogPost.find(params[:id])
+    if BlogPost.find(params[:id]).delete_flag == true
+      redirect_to '/404.html'
+    else
+      @blog_post = BlogPost.find(params[:id])
+    end
   rescue ActiveRecord::RecordNotFound
-    redirect_to root_path
+    redirect_to '/404.html'
   end
 
   def new
@@ -22,8 +26,16 @@ class BlogPostsController < ApplicationController
     end
   end
 
+  def destroy
+    @blog_post = BlogPost.find(params[:id])
+    @blog_post.destroy
+    redirect_to root_path, status: :see_other
+  end
+
   def edit
     @blog_post = BlogPost.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to '/404.html'
   end
 
   def update
@@ -35,16 +47,21 @@ class BlogPostsController < ApplicationController
     end
   end
 
-  def destroy
+  def archive
     @blog_post = BlogPost.find(params[:id])
-    @blog_post.destroy
+    @blog_post.update(:delete_flag=> 1)
+    redirect_to root_path, status: :see_other
+  end
 
+  def unarchive
+    @blog_post = BlogPost.find(params[:id])
+    @blog_post.update(:delete_flag=> 0)
     redirect_to root_path, status: :see_other
   end
 
   private
   def blog_post_params
-    params.require(:blog_post).permit(:title, :body, :cover_image)
+    params.require(:blog_post).permit(:title, :body, :thumbnail)
   end
 
 end

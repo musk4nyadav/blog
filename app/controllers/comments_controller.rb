@@ -16,10 +16,6 @@ class CommentsController < ApplicationController
     redirect_to blog_post(@blog_post)
   end
 
-  def allreplies
-    @comments = Comment.where(comment_id: params[:comment_id])
-  end
-
   private
     def comment_params
       params.require(:comment).permit(:commenter, :body, :comment_id)

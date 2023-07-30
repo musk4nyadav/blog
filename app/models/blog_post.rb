@@ -6,5 +6,7 @@ class BlogPost < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true
   validates_length_of :body, :maximum => 500
+  mount_uploader :thumbnail, ThumbnailUploader
+  validates_integrity_of :thumbnail
   
 end

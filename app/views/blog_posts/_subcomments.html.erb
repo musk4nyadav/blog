@@ -1,0 +1,12 @@
+  <p>
+    <% if comment.replies.any? %>
+      <% comment.replies.each do |reply|%>
+        <ul>
+          <li> Commenter: <%= reply.commenter%> <%= link_to "Reply " ,new_blog_post_comment_path(@blog_post, comment_id: reply.id) %><br>
+          <li> Comment: <%= reply.body%>
+          <%= render partial: "subcomments", locals: {blog_post: @blog_post, comment: reply} %>
+        </ul>
+      <%end%>
+    <%end%>
+  
+  </p>

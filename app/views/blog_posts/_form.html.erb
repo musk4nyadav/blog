@@ -14,12 +14,11 @@
 <div>
   <%= form.label :body %><br>
   <%= form.text_area :body %>
-
 </div>
 
 <div>
-  <%= form.label :cover_image %> <br>
-  <%= form.file_field :cover_image %>
+  <%= form.label :thumbnail %> <br>
+  <%= form.file_field :thumbnail, accept: 'image/png, image/jpg' %>
 </div>
 
 <div>

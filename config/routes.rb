@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   # get "blog_posts/:id", to: "blog_posts#show"
   # root "blog_posts#index" 
 
-  
   resources :blog_posts do 
     resources :comments 
   end
@@ -13,7 +12,8 @@ Rails.application.routes.draw do
     resources :comments
   end
   
-  get "comments/allreplies/:comment_id" , to: "comments#allreplies"
+  get "blog_posts/:id/archive" , to: "blog_posts#archive"
+  get "blog_posts/:id/unarchive" , to: "blog_posts#unarchive"
 
   # Defines the root path route ("/")
   root "blog_posts#index" 
