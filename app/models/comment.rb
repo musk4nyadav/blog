@@ -4,4 +4,5 @@ class Comment < ApplicationRecord
     has_many :replies, class_name: 'Comment', foreign_key: :comment_id, dependent: :destroy
 
     validates :commenter, presence: :true
+    validates :body, presence: true
 end

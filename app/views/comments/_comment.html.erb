@@ -8,6 +8,8 @@
     <strong>Comment:</strong>
     <%= comment.body %>
     <br> <%= link_to "Reply " ,new_blog_post_comment_path(@blog_post, comment_id: comment.id) %>
+    <%= link_to "Delete " , blog_post_comment_path(@blog_post, comment) , data: {
+                      turbo_method: :delete}%>
   </p>
 
   <%= render partial: "subcomments", locals: {blog_post: @blog_post, comment: comment} %>

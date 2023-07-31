@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     @blog_post = BlogPost.find(params[:blog_post_id])
     @comment = @blog_post.comments.find(params[:id])
     @comment.destroy
-    redirect_to blog_post(@blog_post)
+    redirect_to blog_post_path(@blog_post)
   end
 
   private
