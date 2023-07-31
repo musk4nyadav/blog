@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_29_122553) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_30_181815) do
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -46,6 +56,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_122553) do
     t.datetime "updated_at", null: false
     t.string "thumbnail"
     t.boolean "delete_flag"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_blog_posts_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -73,5 +85,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_122553) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "blog_posts", "users"
   add_foreign_key "comments", "blog_posts"
 end

@@ -74,5 +74,4 @@ end
 gem "devise", "~> 4.9"
 gem "carrierwave", "~>1.0"
 gem "file_validators"
-
-
+gem "tailwindcss-rails", "~> 2.0"

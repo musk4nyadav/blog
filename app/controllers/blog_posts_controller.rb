@@ -1,4 +1,6 @@
 class BlogPostsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
+
   def index
     @blog_posts = BlogPost.all
   end
@@ -14,11 +16,11 @@ class BlogPostsController < ApplicationController
   end
 
   def new
-    @blog_post = BlogPost.new
+    @blog_post = current_user.blog_posts.build
   end
 
   def create
-    @blog_post = BlogPost.new(blog_post_params)
+    @blog_post = current_user.blog_posts.build(blog_post_params)
     if @blog_post.save
       redirect_to @blog_post
     else
@@ -28,8 +30,12 @@ class BlogPostsController < ApplicationController
 
   def destroy
     @blog_post = BlogPost.find(params[:id])
-    @blog_post.destroy
-    redirect_to root_path, status: :see_other
+    if @blog_post.user_id == current_user.id
+      @blog_post.destroy
+      redirect_to root_path, status: :see_other
+    else
+      redirect_to '/422.html'
+    end
   end
 
   def edit
@@ -40,17 +46,22 @@ class BlogPostsController < ApplicationController
 
   def update
     @blog_post = BlogPost.find(params[:id])
-    if @blog_post.update(blog_post_params)
-      redirect_to @blog_post
+    if @blog_post.user_id == current_user.id
+      @blog_post.update(blog_post_params)
+      redirect_to root_path, status: :see_other
     else
-      render :edit, status: :unprocessable_entity
+      redirect_to '/422.html'
     end
   end
 
   def archive
     @blog_post = BlogPost.find(params[:id])
-    @blog_post.update(:delete_flag=> 1)
-    redirect_to root_path, status: :see_other
+    if @blog_post.user_id == current_user.id
+      @blog_post.update(:delete_flag=> 1)
+      redirect_to root_path, status: :see_other
+    else 
+      redirect_to '/422.html'
+    end
   end
 
   def unarchive
@@ -61,7 +72,8 @@ class BlogPostsController < ApplicationController
 
   private
   def blog_post_params
-    params.require(:blog_post).permit(:title, :body, :thumbnail)
+    params.require(:blog_post).permit(:title, :body, :thumbnail, :user_id)
   end
+
 
 end

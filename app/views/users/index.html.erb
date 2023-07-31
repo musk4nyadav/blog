@@ -1,0 +1,16 @@
+<h1> All Posts By You </h1>
+<% if @user.blog_posts.any?%>
+    <% @user.blog_posts.each do |blog_post|%>
+        <li>
+        <% if blog_post.delete_flag == true%>
+            <%= blog_post.title%>
+            <%= link_to "Unarchive", "/blog_posts/#{blog_post.id}/unarchive"%>
+        <%else%>
+            <%= blog_post.title%>
+            <%=link_to "Visit", "/blog_posts/#{blog_post.id}" %>
+        <% end%>
+        </li>
+    <%end%>
+<% else%>
+    You have no posts
+<%end%>
