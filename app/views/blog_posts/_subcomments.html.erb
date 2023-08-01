@@ -2,11 +2,15 @@
     <% if comment.replies.any? %>
       <% comment.replies.each do |reply|%>
         <ul>
-          <li> Commenter: <%= reply.commenter%> <%= link_to "Reply " ,new_blog_post_comment_path(@blog_post, comment_id: reply.id) %> 
-          <%= link_to "Delete " , blog_post_comment_path(@blog_post, reply) , data: {
-                      turbo_method: :delete}%>
-          <br>
+          <li> Commenter: <%= reply.commenter%> 
+          <h6> Posted <%= time_ago_in_words(reply.created_at)%> </h6>
           <li> Comment: <%= reply.body%>
+          
+          <%= link_to "Reply " ,new_blog_post_comment_path(@blog_post, comment_id: reply.id) %>
+          <% if user_signed_in? && reply.commenter == current_user.email%> 
+            <%= link_to "Delete " , blog_post_comment_path(@blog_post, reply) , data: {turbo_method: :delete} %>
+          <% end%>
+
           <%= render partial: "subcomments", locals: {blog_post: @blog_post, comment: reply} %>
         </ul>
       <%end%>

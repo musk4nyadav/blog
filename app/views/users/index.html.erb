@@ -1,3 +1,10 @@
+<%=link_to "HomePage", root_path%>
+<br>
+<br>
+
+Total Posts By You : <%=@user.blog_posts.count%> <br>
+Total Comments By you : <%= Comment.where(commenter: current_user.email).count %>
+
 <h1> All Posts By You </h1>
 <% if @user.blog_posts.any?%>
     <% @user.blog_posts.each do |blog_post|%>
@@ -8,6 +15,8 @@
         <%else%>
             <%= blog_post.title%>
             <%=link_to "Visit", "/blog_posts/#{blog_post.id}" %>
+            <br>Total Number of Comments on this Post : <%= Comment.where(blog_post_id: blog_post.id).count%>
+            <br>Total Number of Views on this Post : <%= blog_post.views%>
         <% end%>
         </li>
     <%end%>

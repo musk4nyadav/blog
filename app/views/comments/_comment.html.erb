@@ -2,14 +2,13 @@
   <p>
     <strong>Commenter:</strong>
     <%= comment.commenter %>
-  </p>
-
-  <p>
+    <h6> Posted <%= time_ago_in_words(comment.created_at)%> </h6>
     <strong>Comment:</strong>
     <%= comment.body %>
     <br> <%= link_to "Reply " ,new_blog_post_comment_path(@blog_post, comment_id: comment.id) %>
-    <%= link_to "Delete " , blog_post_comment_path(@blog_post, comment) , data: {
-                      turbo_method: :delete}%>
+    <% if user_signed_in? && current_user.email == comment.commenter%>
+      <%= link_to "Delete " , blog_post_comment_path(@blog_post, comment) , data: {turbo_method: :delete}%>
+    <% end%>
   </p>
 
   <%= render partial: "subcomments", locals: {blog_post: @blog_post, comment: comment} %>

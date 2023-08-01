@@ -1,19 +1,35 @@
 class CommentsController < ApplicationController
   def new
-    @blog_post = BlogPost.find(params[:blog_post_id])
-    @comment = @blog_post.comments.new(comment_id: params[:comment_id])
+    if user_signed_in?
+      @blog_post = BlogPost.find(params[:blog_post_id])
+      @comment = @blog_post.comments.new(comment_id: params[:comment_id])
+    else 
+      redirect_to new_user_session_path
+    end
   end
   def create
-    @blog_post = BlogPost.find(params[:blog_post_id])
-    @comment = @blog_post.comments.create(comment_params)
-    redirect_to blog_post_path(@blog_post)
+    if user_signed_in?
+      @blog_post = BlogPost.find(params[:blog_post_id])
+      @comment = @blog_post.comments.create(comment_params)
+      if @comment.save
+        redirect_to blog_post_path(@blog_post)
+      else 
+        redirect_to "/new", notice: "You comment body was empty"
+      end
+    else 
+      redirect_to new_user_session_path
+    end
   end
 
   def destroy
-    @blog_post = BlogPost.find(params[:blog_post_id])
-    @comment = @blog_post.comments.find(params[:id])
-    @comment.destroy
-    redirect_to blog_post_path(@blog_post)
+    if user_signed_in?
+      @blog_post = BlogPost.find(params[:blog_post_id])
+      @comment = @blog_post.comments.find(params[:id])
+      if @comment.commenter == current_user.email
+        @comment.destroy
+        redirect_to blog_post_path(@blog_post)
+      end
+    end
   end
 
   private

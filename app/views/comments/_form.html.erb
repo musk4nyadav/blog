@@ -4,13 +4,14 @@
   <% form.object.errors.full_messages.each do |message| %>
   <div> <%= message%> </div>
   <% end%>
-  </div>
   <% end%>
 
   <p>
-    <%= form.label :commenter %><br>
-    <%= form.text_field :commenter %>
+    <% if user_signed_in?%>
+    <%= form.hidden_field :commenter , value: current_user.email, readonly: true%><br>
+    <% end%>
   </p>
+
   <p>
     <%= form.label :body %><br>
     <%= form.text_area :body %>

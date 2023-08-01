@@ -2,7 +2,7 @@ class BlogPostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @blog_posts = BlogPost.all
+    @blog_posts = BlogPost.all.order(created_at: :desc)
   end
 
   def show
@@ -10,6 +10,7 @@ class BlogPostsController < ApplicationController
       redirect_to '/404.html'
     else
       @blog_post = BlogPost.find(params[:id])
+      @blog_post.update(views: @blog_post.views+1)
     end
   rescue ActiveRecord::RecordNotFound
     redirect_to '/404.html'

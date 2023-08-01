@@ -1,10 +1,15 @@
 <h1> Reply to comment </h1>
 
 <%= form_with model: [ @blog_post, @comment] do |form| %>
-  <p>
+   <p>
+    <% if user_signed_in?%>
+    <%= form.hidden_field :commenter , value: current_user.email, readonly: true%><br>
+    <%else%>
     <%= form.label :commenter %><br>
     <%= form.text_field :commenter %>
+    <% end%>
   </p>
+  
   <p>
     <%= form.label :body %><br>
     <%= form.text_area :body %>
